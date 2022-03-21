@@ -1,18 +1,23 @@
 import React from "react";
 import NoteItem from "../NoteItem";
-import { Box, Button, TextareaAutosize, TextField } from "@mui/material";
+import { Box, Button, Chip, Stack, TextField } from "@mui/material";
+import styles from "./styles.module.scss";
+import DeleteIcon from "@mui/icons-material/Delete";
 import EditableNote from "../EditableNote";
 
 const NotesListLayout = ({
   visible,
   setVisible,
   createNoteForm,
+  handleClick,
+  handleDelete,
   handleChange,
   handleNoteCreate,
   handleNoteRemove,
   handleEditModeOn,
   handleEditSave,
   notesList,
+  tagsList,
 }) => {
   return (
     <div>
@@ -70,26 +75,45 @@ const NotesListLayout = ({
 
       <div>
         <h1>Notes</h1>
+        <div className={styles.tagsBox}>
+          {tagsList.map((tag, index) => {
+            return (
+              <div key={index}>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  startIcon={<DeleteIcon />}
+                >
+                  {tag}
+                </Button>
+              </div>
+            );
+          })}
+        </div>
         {notesList.map((note, index) => {
           return note.isEditMode ? (
             <EditableNote
               key={note.id}
               id={note.id}
+              initialTags={note.tags}
               initialTitle={note.title}
               initialText={note.text}
               handleSave={handleEditSave}
+              tagsList={tagsList}
             />
           ) : (
-            <NoteItem
-              key={note.id}
-              title={note.title}
-              text={note.text}
-              orderNumber={index + 1}
-              handleEdit={() => handleEditModeOn(note.id)}
-              handleDelete={() => {
-                handleNoteRemove(note.id);
-              }}
-            />
+            <>
+              <NoteItem
+                key={note.id}
+                title={note.title}
+                text={note.text}
+                orderNumber={index + 1}
+                handleEdit={() => handleEditModeOn(note.id)}
+                handleDelete={() => {
+                  handleNoteRemove(note.id);
+                }}
+              />
+            </>
           );
         })}
       </div>
