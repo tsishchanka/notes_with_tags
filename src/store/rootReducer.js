@@ -1,7 +1,8 @@
 import { combineReducers } from "redux";
+import notesListReducer from "../pages/NotesListPage/reducers";
 
 const rootReducer = combineReducers({
-  //notesListPage: notesListPageReducer,
+  notesPage: notesListReducer,
 });
 
 export default rootReducer;
