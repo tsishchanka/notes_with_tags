@@ -8,25 +8,50 @@ import {
   SET_EDIT_MODE,
   DELETE_NOTE,
   SAVE_EDITED_NOTE,
+  CREATE_TAG,
 } from "../actions";
 
 const NotesListContainer = () => {
   const [visible, setVisible] = useState(false);
+  const [createTagVisible, setCreateTagVisible] = useState(false);
   const dispatch = useDispatch();
   const { notesList, tagsList } = useSelector((state) => state.notesPage);
   const [formData, handleNoteChange, handleReset] = useForm({
     noteText: "",
     noteTitle: "",
+    tagText: "",
   });
+
   const handleNoteCreate = useCallback(
     (event) => {
       event.preventDefault();
       if (formData.noteText.length > 0) {
         dispatch(
-          CREATE_NOTE({ title: formData.noteTitle, text: formData.noteText })
+          CREATE_NOTE({
+            title: formData.noteTitle,
+            text: formData.noteText,
+          })
         );
         handleReset();
         setVisible(false);
+      }
+    },
+    [dispatch, formData]
+  );
+  const handleTagCreate = useCallback(
+    (event) => {
+      event.preventDefault();
+      if (formData.tagText.length > 0) {
+        dispatch(
+          CREATE_TAG({
+            text:
+              formData.tagText.charAt(0) === "#"
+                ? formData.tagText
+                : `#${formData.tagText}`,
+          })
+        );
+        handleReset();
+        setCreateTagVisible(false);
       }
     },
     [dispatch, formData]
@@ -62,6 +87,9 @@ const NotesListContainer = () => {
         notesList={notesList}
         tagsList={tagsList}
         createNoteForm={formData}
+        createTagVisible={createTagVisible}
+        setCreateTagVisible={setCreateTagVisible}
+        handleTagCreate={handleTagCreate}
         handleNoteCreate={handleNoteCreate}
         handleNoteRemove={handleNoteRemove}
         handleEditModeOn={handleEditModeOn}

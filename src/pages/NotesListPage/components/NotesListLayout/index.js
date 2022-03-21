@@ -1,14 +1,18 @@
 import React from "react";
 import NoteItem from "../NoteItem";
-import { Box, Button, Chip, Stack, TextField } from "@mui/material";
+import { Box, Button, Chip, Stack, TextField, Tooltip } from "@mui/material";
 import styles from "./styles.module.scss";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditableNote from "../EditableNote";
+import { CheckCircle as CheckCircleIcon } from "@mui/icons-material";
 
 const NotesListLayout = ({
   visible,
   setVisible,
   createNoteForm,
+  handleTagCreate,
+  createTagVisible,
+  setCreateTagVisible,
   handleClick,
   handleDelete,
   handleChange,
@@ -75,6 +79,42 @@ const NotesListLayout = ({
 
       <div>
         <h1>Notes</h1>
+
+        {!createTagVisible && (
+          <div>
+            <Button
+              size="medium"
+              variant={"contained"}
+              type="submit"
+              onClick={() => setCreateTagVisible(!createTagVisible)}
+            >
+              New Tag
+            </Button>
+          </div>
+        )}
+
+        {createTagVisible && (
+          <div className={styles.tagCreatorBox}>
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Tag"
+              maxRows={1}
+              name="tagText"
+              value={createNoteForm.tagText}
+              onChange={handleChange}
+            />
+            {createNoteForm.tagText.split(" ").length > 1 ? (
+              <p style={{ color: "red" }}>"Please enter only ONE word "</p>
+            ) : (
+              <Tooltip title="Save">
+                <Button
+                  endIcon={<CheckCircleIcon />}
+                  onClick={handleTagCreate}
+                />
+              </Tooltip>
+            )}
+          </div>
+        )}
         <div className={styles.tagsBox}>
           {tagsList.map((tag, index) => {
             return (
