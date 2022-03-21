@@ -42,6 +42,7 @@ const notesListReducer = handleActions(
         (note) => note.id === noteId
       );
       notesListCopy.splice(itemIndexToRemove, 1);
+      const newTags = notesListCopy.split(" ").filter((v) => v.startsWith("#"));
       return {
         notesList: notesListCopy,
       };
@@ -65,6 +66,14 @@ const notesListReducer = handleActions(
       return {
         notesList: updatedState,
         tagsList: [...new Set(newTags.concat(state.tagsList))],
+      };
+    },
+    [actions.CREATE_TAG]: (state, { payload }) => {
+      const { text } = payload;
+      const newTag = text;
+      return {
+        notesList: [...state.notesList],
+        tagsList: [newTag, ...state.tagsList],
       };
     },
   },
