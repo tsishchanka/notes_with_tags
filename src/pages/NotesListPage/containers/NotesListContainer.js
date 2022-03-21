@@ -9,9 +9,12 @@ import {
   DELETE_NOTE,
   SAVE_EDITED_NOTE,
   CREATE_TAG,
+  DELETE_TAG,
 } from "../actions";
 
 const NotesListContainer = () => {
+  const [filter, setFilter] = useState("All");
+
   const [visible, setVisible] = useState(false);
   const [createTagVisible, setCreateTagVisible] = useState(false);
   const dispatch = useDispatch();
@@ -64,6 +67,13 @@ const NotesListContainer = () => {
     [dispatch]
   );
 
+  const handleTagRemove = useCallback(
+    (tagId) => {
+      dispatch(DELETE_TAG(tagId));
+    },
+    [dispatch]
+  );
+
   const handleEditModeOn = useCallback(
     (noteId) => {
       setVisible(false);
@@ -90,6 +100,7 @@ const NotesListContainer = () => {
         createTagVisible={createTagVisible}
         setCreateTagVisible={setCreateTagVisible}
         handleTagCreate={handleTagCreate}
+        handleTagRemove={handleTagRemove}
         handleNoteCreate={handleNoteCreate}
         handleNoteRemove={handleNoteRemove}
         handleEditModeOn={handleEditModeOn}
