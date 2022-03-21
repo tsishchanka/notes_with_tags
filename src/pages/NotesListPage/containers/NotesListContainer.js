@@ -13,7 +13,7 @@ import {
 const NotesListContainer = () => {
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
-  const { notesList } = useSelector((state) => state.notesPage);
+  const { notesList, tagsList } = useSelector((state) => state.notesPage);
   const [formData, handleNoteChange, handleReset] = useForm({
     noteText: "",
     noteTitle: "",
@@ -21,11 +21,6 @@ const NotesListContainer = () => {
   const handleNoteCreate = useCallback(
     (event) => {
       event.preventDefault();
-      const matchHashTags = (text) => {
-        let string = text;
-        const regex = /#(\w*[0-9a-zA-Z]+\w*[0-9a-zA-Z])/gi;
-        const matches = string.matchAll(regex);
-      };
       if (formData.noteText.length > 0) {
         dispatch(
           CREATE_NOTE({ title: formData.noteTitle, text: formData.noteText })
@@ -65,6 +60,7 @@ const NotesListContainer = () => {
         setVisible={setVisible}
         visible={visible}
         notesList={notesList}
+        tagsList={tagsList}
         createNoteForm={formData}
         handleNoteCreate={handleNoteCreate}
         handleNoteRemove={handleNoteRemove}
