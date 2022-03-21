@@ -41,10 +41,13 @@ const notesListReducer = handleActions(
       const itemIndexToRemove = notesListCopy.findIndex(
         (note) => note.id === noteId
       );
+
       notesListCopy.splice(itemIndexToRemove, 1);
-      const newTags = notesListCopy.split(" ").filter((v) => v.startsWith("#"));
+
+      /* const newTags = notesListCopy.split(" ").filter((v) => v.startsWith("#"));*/
       return {
         notesList: notesListCopy,
+        tagsList: [...state.tagsList],
       };
     },
 
@@ -68,12 +71,29 @@ const notesListReducer = handleActions(
         tagsList: [...new Set(newTags.concat(state.tagsList))],
       };
     },
+
     [actions.CREATE_TAG]: (state, { payload }) => {
       const { text } = payload;
       const newTag = text;
       return {
         notesList: [...state.notesList],
-        tagsList: [newTag, ...state.tagsList],
+        tagsList: [...state.tagsList, newTag],
+      };
+    },
+    [actions.DELETE_TAG]: (state, { payload }) => {
+      const { tagIndex, tagText } = payload;
+      console.log(tagText);
+      const tagsListCopy = [...state.tagsList];
+      const notesListCopy = [...state.notesList];
+
+      const itemIndexToRemove = tagsListCopy.findIndex(
+        (tag, index) => index === tagIndex
+      );
+      tagsListCopy.splice(itemIndexToRemove, 1);
+
+      return {
+        notesList: notesListCopy,
+        tagsList: tagsListCopy,
       };
     },
   },

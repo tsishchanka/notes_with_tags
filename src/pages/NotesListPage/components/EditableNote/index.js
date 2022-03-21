@@ -25,14 +25,7 @@ const EditableNote = ({
   const handleEditText = useCallback((event) => {
     const { value } = event.target;
     setEditableText(value);
-    setEditableTag(
-      value
-        .split(" ")
-        .filter((v) => v.startsWith("#"))
-        .reduce((un, i) => {
-          return un.includes(i) ? un : [...un, i];
-        }, [])
-    );
+    setEditableTag(value.split(" ").filter((v) => v.startsWith("#")));
   }, []);
 
   const handleUndo = useCallback(() => {
@@ -84,20 +77,19 @@ const EditableNote = ({
               }
             />
           </Tooltip>
-          <Tooltip title="Cancel">
-            <Button endIcon={<Cancel />} onClick={() => handleUndo()} />
-          </Tooltip>
+          {(editableText.length !== initialText.length ||
+            editableTitle.length !== initialTitle.length) && (
+            <Tooltip title="Cancel">
+              <Button endIcon={<Cancel />} onClick={() => handleUndo(id)} />
+            </Tooltip>
+          )}
         </div>
       </div>
       <div className={styles.tagsBox}>
         {editableTag.map((tag, index) => {
           return (
             <div key={index}>
-              <Button
-                variant="outlined"
-                size="small"
-                startIcon={<DeleteIcon />}
-              >
+              <Button variant="outlined" size="small">
                 {tag}
               </Button>
             </div>

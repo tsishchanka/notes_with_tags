@@ -4,7 +4,7 @@ import { Box, Button, Chip, Stack, TextField, Tooltip } from "@mui/material";
 import styles from "./styles.module.scss";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditableNote from "../EditableNote";
-import { CheckCircle as CheckCircleIcon } from "@mui/icons-material";
+import { Cancel, CheckCircle as CheckCircleIcon } from "@mui/icons-material";
 
 const NotesListLayout = ({
   visible,
@@ -14,7 +14,7 @@ const NotesListLayout = ({
   createTagVisible,
   setCreateTagVisible,
   handleClick,
-  handleDelete,
+  handleTagRemove,
   handleChange,
   handleNoteCreate,
   handleNoteRemove,
@@ -77,9 +77,7 @@ const NotesListLayout = ({
         </Button>
       )}
 
-      <div>
-        <h1>Notes</h1>
-
+      <div className={styles.tagAndNoteWrapper}>
         {!createTagVisible && (
           <div>
             <Button
@@ -92,7 +90,6 @@ const NotesListLayout = ({
             </Button>
           </div>
         )}
-
         {createTagVisible && (
           <div className={styles.tagCreatorBox}>
             <TextField
@@ -106,12 +103,21 @@ const NotesListLayout = ({
             {createNoteForm.tagText.split(" ").length > 1 ? (
               <p style={{ color: "red" }}>"Please enter only ONE word "</p>
             ) : (
-              <Tooltip title="Save">
-                <Button
-                  endIcon={<CheckCircleIcon />}
-                  onClick={handleTagCreate}
-                />
-              </Tooltip>
+              <>
+                {" "}
+                <Tooltip title="Save">
+                  <Button
+                    endIcon={<CheckCircleIcon />}
+                    onClick={handleTagCreate}
+                  />
+                </Tooltip>
+                <Tooltip title="Cancel">
+                  <Button
+                    endIcon={<Cancel />}
+                    onClick={() => setCreateTagVisible(!createTagVisible)}
+                  />
+                </Tooltip>
+              </>
             )}
           </div>
         )}
@@ -122,7 +128,13 @@ const NotesListLayout = ({
                 <Button
                   variant="outlined"
                   size="small"
-                  startIcon={<DeleteIcon />}
+                  startIcon={
+                    <DeleteIcon
+                      onClick={() => {
+                        handleTagRemove(index, { tag });
+                      }}
+                    />
+                  }
                 >
                   {tag}
                 </Button>
@@ -130,6 +142,7 @@ const NotesListLayout = ({
             );
           })}
         </div>
+        <h1>Notes</h1>
         {notesList.map((note, index) => {
           return note.isEditMode ? (
             <EditableNote
