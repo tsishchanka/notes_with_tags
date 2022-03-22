@@ -14,7 +14,6 @@ import {
 
 const NotesListContainer = () => {
   const [filter, setFilter] = useState("All");
-
   const [visible, setVisible] = useState(false);
   const [createTagVisible, setCreateTagVisible] = useState(false);
   const dispatch = useDispatch();
