@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, IconButton, TextField, Tooltip } from "@mui/material";
 import {
+  Visibility as VisibilityIcon,
   DeleteForever as DeleteForeverIcon,
   Edit as EditIcon,
 } from "@mui/icons-material";
 import styles from "./styles.module.scss";
 
 const NoteItem = ({ orderNumber, text, title, handleEdit, handleDelete }) => {
+  const [isHovered, setIsHovered] = useState(false);
   return (
     <div className={styles.wrapper}>
+      <Tooltip title="Remove">
+        <Button
+          endIcon={<VisibilityIcon />}
+          onClick={() => setIsHovered(!isHovered)}
+        />
+      </Tooltip>
       <Box
         component="form"
         sx={{
@@ -17,17 +25,30 @@ const NoteItem = ({ orderNumber, text, title, handleEdit, handleDelete }) => {
         noValidate
         autoComplete="off"
       >
-        <TextField
-          id="filled-multiline-static"
-          label={`${orderNumber} ${title}`}
-          multiline
-          rows={2}
-          defaultValue={text.substring(0, 120)}
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="filled"
-        />
+        {!isHovered ? (
+          <TextField
+            id="filled-multiline-static"
+            label={`${orderNumber} ${title}`}
+            multiline
+            maxRows={4}
+            defaultValue={`${text.substring(0, 80)}...`}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="filled"
+          />
+        ) : (
+          <TextField
+            id="outlined-multiline-flexible"
+            label={`${orderNumber} ${title}`}
+            multiline
+            maxRows={10}
+            value={text}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        )}
       </Box>
       <div className={styles.buttons}>
         <Tooltip title="Edit">
