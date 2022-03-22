@@ -21,7 +21,7 @@ const NotesListContainer = () => {
   const { notesList, tagsList, filteredList } = useSelector(
     (state) => state.notesPage
   );
-  const [formData, handleNoteChange, handleReset] = useForm({
+  const [formData, handleNoteChange] = useForm({
     noteText: "",
     noteTitle: "",
     tagText: "",
@@ -92,10 +92,10 @@ const NotesListContainer = () => {
 
   const handleClick = useCallback(
     (tagText) => {
-      setFilter(!filter);
+      setFilter(true);
       dispatch(FILTER_BY_TAG(tagText));
     },
-    [dispatch]
+    [dispatch, filter]
   );
 
   return (
