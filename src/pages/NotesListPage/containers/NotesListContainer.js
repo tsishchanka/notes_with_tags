@@ -37,7 +37,6 @@ const NotesListContainer = () => {
             text: formData.noteText,
           })
         );
-        handleReset();
         setVisible(false);
       }
     },
@@ -55,7 +54,7 @@ const NotesListContainer = () => {
                 : `#${formData.tagText}`,
           })
         );
-        handleReset();
+
         setCreateTagVisible(false);
       }
     },

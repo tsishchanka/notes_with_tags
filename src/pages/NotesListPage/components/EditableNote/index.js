@@ -1,11 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { Box, Button, TextField, Tooltip } from "@mui/material";
 import styles from "./styles.module.scss";
-import {
-  CheckCircle as CheckCircleIcon,
-  Cancel as Cancel,
-} from "@mui/icons-material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { CheckCircle as CheckCircleIcon, Cancel } from "@mui/icons-material";
 
 const EditableNote = ({
   id,

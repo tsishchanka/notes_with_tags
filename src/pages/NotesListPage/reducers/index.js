@@ -1,7 +1,6 @@
 import { handleActions } from "redux-actions";
 import * as actions from "../actions";
 import { v4 as uuidV4 } from "uuid";
-import { FILTER_BY_TAG } from "../actions";
 
 const defaultState = {
   notesList: [],
@@ -110,7 +109,7 @@ const notesListReducer = handleActions(
     },
 
     [actions.DELETE_TAG]: (state, { payload }) => {
-      const { tagIndex, tagText } = payload;
+      const { tagIndex } = payload;
       const tagsListCopy = [...state.tagsList];
       const notesListCopy = [...state.notesList];
 
