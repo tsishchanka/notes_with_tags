@@ -22,6 +22,9 @@ const NotesListLayout = ({
   handleEditSave,
   notesList,
   tagsList,
+  filteredList,
+  filter,
+  setFilter,
 }) => {
   return (
     <div>
@@ -124,51 +127,97 @@ const NotesListLayout = ({
         <div className={styles.tagsBox}>
           {tagsList.map((tag, index) => {
             return (
-              <div key={index}>
-                <Button
-                  variant="outlined"
-                  size="small"
-                  startIcon={
+              <div key={index} className={styles.tagDiv}>
+                {!filter ? (
+                  <div className={styles.deleteTagBox}>
                     <DeleteIcon
                       onClick={() => {
                         handleTagRemove(index, { tag });
                       }}
                     />
-                  }
+                  </div>
+                ) : null}
+                <div
+                  className={styles.deleteTagText}
+                  onClick={() => handleClick(tag)}
                 >
                   {tag}
-                </Button>
+                </div>
               </div>
             );
           })}
+          {filter && (
+            <Button
+              onClick={() => setFilter(false)}
+              variant="filled"
+              size="small"
+            >
+              Reset Filter
+            </Button>
+          )}
         </div>
         <h1>Notes</h1>
-        {notesList.map((note, index) => {
-          return note.isEditMode ? (
-            <EditableNote
-              key={note.id}
-              id={note.id}
-              initialTags={note.tags}
-              initialTitle={note.title}
-              initialText={note.text}
-              handleSave={handleEditSave}
-              tagsList={tagsList}
-            />
-          ) : (
-            <>
-              <NoteItem
-                key={note.id}
-                title={note.title}
-                text={note.text}
-                orderNumber={index + 1}
-                handleEdit={() => handleEditModeOn(note.id)}
-                handleDelete={() => {
-                  handleNoteRemove(note.id);
-                }}
-              />
-            </>
-          );
-        })}
+        {!filter ? (
+          <div>
+            {notesList.map((note, index) => {
+              return note.isEditMode ? (
+                <EditableNote
+                  key={note.id}
+                  id={note.id}
+                  initialTags={note.tags}
+                  initialTitle={note.title}
+                  initialText={note.text}
+                  handleSave={handleEditSave}
+                  tagsList={tagsList}
+                />
+              ) : (
+                <>
+                  <NoteItem
+                    key={note.id}
+                    title={note.title}
+                    text={note.text}
+                    orderNumber={index + 1}
+                    handleEdit={() => handleEditModeOn(note.id)}
+                    handleDelete={() => {
+                      handleNoteRemove(note.id);
+                    }}
+                  />
+                </>
+              );
+            })}
+          </div>
+        ) : (
+          <div>
+            {" "}
+            {filteredList.map((note, index) => {
+              return note.isEditMode ? (
+                <EditableNote
+                  key={note.id}
+                  id={note.id}
+                  initialTags={note.tags}
+                  initialTitle={note.title}
+                  initialText={note.text}
+                  handleSave={handleEditSave}
+                  tagsList={tagsList}
+                />
+              ) : (
+                <>
+                  <NoteItem
+                    key={note.id}
+                    filter={filter}
+                    title={note.title}
+                    text={note.text}
+                    orderNumber={index + 1}
+                    handleEdit={() => handleEditModeOn(note.id)}
+                    handleDelete={() => {
+                      handleNoteRemove(note.id);
+                    }}
+                  />
+                </>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

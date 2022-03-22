@@ -10,14 +10,17 @@ import {
   SAVE_EDITED_NOTE,
   CREATE_TAG,
   DELETE_TAG,
+  FILTER_BY_TAG,
 } from "../actions";
 
 const NotesListContainer = () => {
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState(false);
   const [visible, setVisible] = useState(false);
   const [createTagVisible, setCreateTagVisible] = useState(false);
   const dispatch = useDispatch();
-  const { notesList, tagsList } = useSelector((state) => state.notesPage);
+  const { notesList, tagsList, filteredList } = useSelector(
+    (state) => state.notesPage
+  );
   const [formData, handleNoteChange, handleReset] = useForm({
     noteText: "",
     noteTitle: "",
@@ -88,6 +91,14 @@ const NotesListContainer = () => {
     [dispatch]
   );
 
+  const handleClick = useCallback(
+    (tagText) => {
+      setFilter(!filter);
+      dispatch(FILTER_BY_TAG(tagText));
+    },
+    [dispatch]
+  );
+
   return (
     <div>
       <NotesListLayout
@@ -105,6 +116,10 @@ const NotesListContainer = () => {
         handleEditModeOn={handleEditModeOn}
         handleEditSave={handleEditSave}
         handleChange={handleNoteChange}
+        handleClick={handleClick}
+        filteredList={filteredList}
+        filter={filter}
+        setFilter={setFilter}
       />
     </div>
   );

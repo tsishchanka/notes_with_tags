@@ -19,3 +19,23 @@
   justify-content: center;
   margin: 20px;
 }
+
+.tagDiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: 10px;
+  max-width: 300px;
+  font-size: 24px;
+}
+
+.deleteTagBox{
+  margin: 5px 5px 5px 0;
+}
+
+.deleteTagText{
+  margin: 5px 5px 5px 0;
+}

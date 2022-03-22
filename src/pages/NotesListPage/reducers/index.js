@@ -1,10 +1,12 @@
 import { handleActions } from "redux-actions";
 import * as actions from "../actions";
 import { v4 as uuidV4 } from "uuid";
+import { FILTER_BY_TAG } from "../actions";
 
 const defaultState = {
   notesList: [],
   tagsList: [],
+  filteredList: [],
 };
 
 const notesListReducer = handleActions(
@@ -23,6 +25,7 @@ const notesListReducer = handleActions(
       return {
         notesList: [newNote, ...state.notesList],
         tagsList: [...new Set(newTags.concat(state.tagsList))],
+        filteredList: [...state.filteredList],
       };
     },
 
@@ -34,8 +37,10 @@ const notesListReducer = handleActions(
       return {
         notesList: updatedState,
         tagsList: [...state.tagsList],
+        filteredList: [...state.filteredList],
       };
     },
+
     [actions.DELETE_NOTE]: (state, { payload: noteId }) => {
       const notesListCopy = [...state.notesList];
       const itemIndexToRemove = notesListCopy.findIndex(
@@ -48,6 +53,7 @@ const notesListReducer = handleActions(
       return {
         notesList: notesListCopy,
         tagsList: [...state.tagsList],
+        filteredList: [...state.filteredList],
       };
     },
 
@@ -69,20 +75,42 @@ const notesListReducer = handleActions(
       return {
         notesList: updatedState,
         tagsList: [...new Set(newTags.concat(state.tagsList))],
+        filteredList: [...state.filteredList],
       };
     },
 
     [actions.CREATE_TAG]: (state, { payload }) => {
-      const { text } = payload;
-      const newTag = text;
+      const { text: tagText } = payload;
+      const newTag = tagText;
+      const tagWithoutHash = newTag.substring(1);
+      const copyNotesList = [...state.notesList];
+      const updatedNotesList = copyNotesList.map((note) => ({
+        ...note,
+        text: note.text.replaceAll(tagWithoutHash, tagText),
+        tags: [...note.tags, tagText],
+      }));
+
       return {
-        notesList: [...state.notesList],
+        notesList: updatedNotesList,
         tagsList: [...state.tagsList, newTag],
+        filteredList: [...state.filteredList],
       };
     },
+    [actions.FILTER_BY_TAG]: (state, { payload: tagText }) => {
+      const copyNotesList = [...state.notesList];
+      const updatedNotesList = copyNotesList.filter((note) => {
+        return note.text.split(" ").includes(tagText);
+      });
+
+      return {
+        notesList: [...state.notesList],
+        tagsList: [...state.tagsList],
+        filteredList: updatedNotesList,
+      };
+    },
+
     [actions.DELETE_TAG]: (state, { payload }) => {
       const { tagIndex, tagText } = payload;
-      console.log(tagText);
       const tagsListCopy = [...state.tagsList];
       const notesListCopy = [...state.notesList];
 
