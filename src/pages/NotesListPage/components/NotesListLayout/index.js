@@ -1,6 +1,6 @@
 import React from "react";
 import NoteItem from "../NoteItem";
-import { Box, Button, Chip, Stack, TextField, Tooltip } from "@mui/material";
+import { Box, Button, TextField, Tooltip } from "@mui/material";
 import styles from "./styles.module.scss";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditableNote from "../EditableNote";
