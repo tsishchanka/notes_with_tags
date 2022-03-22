@@ -13,7 +13,10 @@
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "D": "^1.0.0",
+    "file-system": "^2.2.2",
+    "fs": "^0.0.1-security",
     "install": "^0.13.0",
+    "node": "^17.7.1",
     "node-sass": "^7.0.1",
     "npm": "^8.5.5",
     "prettier": "^2.6.0",
@@ -26,6 +29,7 @@
     "redux": "^4.1.2",
     "redux-actions": "^2.6.5",
     "redux-devtools-extension": "^2.13.9",
+    "three": "^0.138.3",
     "uuid": "^8.3.2",
     "web-vitals": "^2.1.4"
   },

@@ -7,7 +7,14 @@ import {
 } from "@mui/icons-material";
 import styles from "./styles.module.scss";
 
-const NoteItem = ({ orderNumber, text, title, handleEdit, handleDelete }) => {
+const NoteItem = ({
+  orderNumber,
+  text,
+  title,
+  handleEdit,
+  handleDelete,
+  filter,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   return (
     <div className={styles.wrapper}>
@@ -31,7 +38,9 @@ const NoteItem = ({ orderNumber, text, title, handleEdit, handleDelete }) => {
             label={`${orderNumber} ${title}`}
             multiline
             maxRows={4}
-            defaultValue={`${text.substring(0, 80)}...`}
+            defaultValue={
+              text.length > 100 ? `${text.substring(0, 100)}...` : text
+            }
             InputProps={{
               readOnly: true,
             }}
@@ -50,14 +59,16 @@ const NoteItem = ({ orderNumber, text, title, handleEdit, handleDelete }) => {
           />
         )}
       </Box>
-      <div className={styles.buttons}>
-        <Tooltip title="Edit">
-          <Button endIcon={<EditIcon />} onClick={handleEdit} />
-        </Tooltip>
-        <Tooltip title="Remove">
-          <Button endIcon={<DeleteForeverIcon />} onClick={handleDelete} />
-        </Tooltip>
-      </div>
+      {!filter && (
+        <div className={styles.buttons}>
+          <Tooltip title="Edit">
+            <Button endIcon={<EditIcon />} onClick={handleEdit} />
+          </Tooltip>
+          <Tooltip title="Remove">
+            <Button endIcon={<DeleteForeverIcon />} onClick={handleDelete} />
+          </Tooltip>
+        </div>
+      )}
     </div>
   );
 };
