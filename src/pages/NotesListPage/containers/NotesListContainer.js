@@ -95,7 +95,7 @@ const NotesListContainer = () => {
       setFilter(true);
       dispatch(FILTER_BY_TAG(tagText));
     },
-    [dispatch, filter]
+    [dispatch]
   );
 
   return (
