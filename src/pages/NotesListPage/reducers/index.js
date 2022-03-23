@@ -121,6 +121,7 @@ const notesListReducer = handleActions(
       return {
         notesList: notesListCopy,
         tagsList: tagsListCopy,
+        filteredList: [...state.filteredList],
       };
     },
   },
