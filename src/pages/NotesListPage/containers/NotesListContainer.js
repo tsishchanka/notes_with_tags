@@ -41,7 +41,7 @@ const NotesListContainer = () => {
         handleFormReset();
       }
     },
-    [dispatch, formData]
+    [dispatch, formData, handleFormReset]
   );
   const handleTagCreate = useCallback(
     (event) => {
@@ -60,7 +60,7 @@ const NotesListContainer = () => {
         handleFormReset();
       }
     },
-    [dispatch, formData]
+    [dispatch, formData, handleFormReset]
   );
 
   const handleNoteRemove = useCallback(
