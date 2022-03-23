@@ -30,7 +30,7 @@ const NotesListLayout = ({
     <div>
       {visible && (
         <div>
-          <div>
+          <div className={styles.buttonBox}>
             <Button
               variant={"contained"}
               type="submit"
@@ -82,7 +82,7 @@ const NotesListLayout = ({
 
       <div className={styles.tagAndNoteWrapper}>
         {!createTagVisible && (
-          <div>
+          <div className={styles.buttonBox}>
             <Button
               size="medium"
               variant={"contained"}

@@ -20,6 +20,14 @@
   margin: 20px;
 }
 
+.buttonBox {
+  max-width: 30%;
+  display: flex;
+ margin: 25px auto;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
 .tagDiv {
   display: flex;
   flex-direction: row;
