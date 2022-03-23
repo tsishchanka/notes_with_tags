@@ -21,7 +21,7 @@ const NotesListContainer = () => {
   const { notesList, tagsList, filteredList } = useSelector(
     (state) => state.notesPage
   );
-  const [formData, handleNoteChange] = useForm({
+  const [formData, handleNoteChange, handleFormReset] = useForm({
     noteText: "",
     noteTitle: "",
     tagText: "",
@@ -38,6 +38,7 @@ const NotesListContainer = () => {
           })
         );
         setVisible(false);
+        handleFormReset();
       }
     },
     [dispatch, formData]
@@ -56,6 +57,7 @@ const NotesListContainer = () => {
         );
 
         setCreateTagVisible(false);
+        handleFormReset();
       }
     },
     [dispatch, formData]
