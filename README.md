@@ -4,5 +4,5 @@ Notes is an application where the user can create, view, edit and delete notes.
 WebStorm, ReactJS, Redux, JSX, SCSS, JavaScript, Material UI, Git.
 
 ### [App](https://fluffy-alfajores-71ec77.netlify.app/notes-list) on netlify
-The application was created as a test task
-The part with Express and MongoDB will be  allocated to a separated repo
+  The part with Express and MongoDB will be  allocated to a separated repo
+
